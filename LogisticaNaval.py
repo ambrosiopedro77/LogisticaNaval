@@ -64,9 +64,10 @@ def conexao_banco():
                         qtd INTEGER NOT NULL,
                         data_validade DATE,
                         data_recebido DATE NOT NULL,
-                        id_item_fornec INTEGER,
+                        FOREIGN KEY (id_item_fornec) REFERENCES fornecedor(id_fornec), 
                         status VARCHAR(5) NOT NULL DEFAULT 'N',
-                        id_item_categ INTEGER NOT NULL ) 
+                        FOREIGN KEY (id_item_categ) REFERENCES categoria(id_categoria)
+                         ) 
                     ''')
     
     executor.execute('''
