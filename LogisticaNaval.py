@@ -378,7 +378,6 @@ def editar_Item():
     nova_qtd        = input("Nova quantidade: ")
     nova_validade   = input("Nova Data de Validade (DD-MM-YYYY): ")
     novo_fornecedor = input("Novo nome do fornecedor: ")
-    novo_nif        = input("NIF: ")
     novo_status     = input("Novo Status do Item [S/N]: ")
     
     executor.execute("SELECT * FROM categoria")
@@ -407,7 +406,7 @@ def editar_Item():
                             status = ?,
                             id_item_categ = ?
                             WHERE id_item = ?  """, 
-                            (novo_nome, novo_tipo, novo_peso, nova_qtd,id_fornec,novo_nif, nova_validade, novo_status,novo_categoria, id_editar))
+                            (novo_nome, novo_tipo, novo_peso, nova_qtd,id_fornec, nova_validade, novo_status,novo_categoria, id_editar))
         conexao.commit()
         limpar_tela()
     
@@ -477,7 +476,7 @@ def consultar_Item_fornecedor():
     consul_fornecedor = input("Inforne o nome do Fornecedor para a consulta: ")
     print("-----------------------------------------------------------------------------------------------------------") 
 
-    executor.execute("SELECT id_fornec FROM fornecedor WHERE nome = ?", (consul_fornecedor,))
+    executor.execute("SELECT id_fornec FROM fornecedor WHERE LOWER(nome) = ?", (consul_fornecedor,))
     resultado = executor.fetchone()
 
     if resultado:
@@ -539,7 +538,7 @@ def consultar_Item_tipo():
 
     print("-----------------------------------------------------------------------------------------------------------") 
 
-    executor.execute(""" SELECT nome, peso,qtd,data_validade,data_recebido,status FROM item WHERE tipo = ? AND status = ? """, (consul_tipo,'S'))
+    executor.execute(""" SELECT nome, peso,qtd,data_validade,data_recebido,status FROM item WHERE LOWER(tipo) = ? AND status = ? """, (consul_tipo,'S'))
 
     #Coleta os resultados
     resultados = executor.fetchall()
